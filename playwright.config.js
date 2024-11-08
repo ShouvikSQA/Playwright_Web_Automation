@@ -32,7 +32,7 @@ module.exports = defineConfig({
       args: ["--start-maximized"],
     },
     
-    headless : false,
+    headless : true,
     /* Base URL to use in actions like `await page.goto('/')`. */
      baseURL: 'https://dailyfinance.roadtocareer.net/',
      //viewport : {width:1400 , height:800 },
