@@ -1,22 +1,26 @@
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
+import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+// import dotenv from 'dotenv';
+// import path from 'path';
+// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-module.exports = defineConfig({
+export default defineConfig({
   testDir: './tests',
-  timeout : 30000,   // similar like implicit wait in selenium
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
+
+  timeout : 40000,
+
   /* Retry on CI only */
   retries: 1,
   /* Opt out of parallel tests on CI. */
@@ -24,25 +28,28 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
+  expect : {
+        timeout : 10000
+  },
+
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
 
-    launchOptions: {
-      args: ["--start-maximized"],
-    },
-    
-    headless : true,
+    actionTimeout : 10000,
     /* Base URL to use in actions like `await page.goto('/')`. */
-     baseURL: 'https://dailyfinance.roadtocareer.net/',
-     //viewport : {width:1400 , height:800 },
-     viewport : null,
-     video : "on-first-retry", // will take a video when the test fails
-     screenshot : "only-on-failure" , // will take a Screenshot when the test fails
-
+     baseURL: 'https://test.nop-station.store/en/',
+     video : "on-first-retry",
+     screenshot : "only-on-failure",
+     headless : false,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    viewport : null,
+    launchOptions : {
+      args: ['--start-maximized']
+    }
+
   },
 
   /* Configure projects for major browsers */
@@ -86,7 +93,7 @@ module.exports = defineConfig({
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
+  //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
 });
