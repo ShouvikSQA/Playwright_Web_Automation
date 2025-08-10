@@ -37,7 +37,7 @@ export default defineConfig({
 
     actionTimeout : 10000,
     /* Base URL to use in actions like `await page.goto('/')`. */
-     baseURL: 'https://test.nop-station.store/en/',
+     baseURL: 'https://dailyfinance.roadtocareer.net/',
      video : "on-first-retry",
      screenshot : "only-on-failure",
      headless : false,
