@@ -1,3 +1,5 @@
+import {fetchEmail} from '../Utils/utils.js'
+
 class ResetPassPage {
     constructor(page) {
         this.page = page;
@@ -13,5 +15,40 @@ class ResetPassPage {
         
 
     }
+    
+    async resetPassword(email, newPassword , confirmNewPass) {
+        await this.page.goto("/");
+        await this.resetLink.click();
+
+    
+        await this.txtEmail.fill(email);
+        await this.btnSendReset.click();
+        await expect(this.emailSentConfrim).toBeVisible({ timeout: 60000 });
+
+        
+        await this.page.waitForTimeout(4000); // for email delivery
+        const latestEmail = await fetchEmail();
+        const resetLink = latestEmail.split(": ")[1];
+
+        await this.page.goto(resetLink);
+
+        await this.txtNewPass.fill(newPassword);
+        await this.txtConfirmPass.fill(confirmNewPass);
+        await this.btnResetPass.click();
+    }
+
+
+    async resetPasswordOldLink(email, newPassword , confirmNewPass) {
+        await this.page.goto("/");
+        const latestEmail = await fetchEmail();
+        const resetLink = latestEmail.split(": ")[1];
+
+        await this.page.goto(resetLink);
+
+        await this.txtNewPass.fill(newPassword);
+        await this.txtConfirmPass.fill(confirmNewPass);
+        await this.btnResetPass.click();
+    }
+
 }
 export default ResetPassPage;

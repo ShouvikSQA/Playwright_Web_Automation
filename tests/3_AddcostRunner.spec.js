@@ -21,16 +21,17 @@ test("User can Add product 1 successfully", async ({ page }) => {
 
     const addCost = new AddcostPage(page);
 
-    await addCost.btnAddCost.click();
-    await addCost.txtItemName.fill("Burger");
-    await addCost.btnIncrement.click();
-    await addCost.btnIncrement.click();
-    await addCost.txtAmount.fill("1870");
-    await addCost.txtPurchaseDate.fill("2024-02-14");
-    await addCost.selectMonth.selectOption("February");
-    await addCost.btnSubmit.click();
+    const costObject = {
+    itemName: "Burger",
+    incrementClicks: 2,        
+    amount: "1870",
+    purchaseDate: "2024-02-14",
+    month: "February"
 
-    await expect(addCost.btnAddCost).toBeVisible({ timeout: 40000 });
+  }
+
+  await addCost.addCost(costObject);
+
     
 });
 
@@ -39,15 +40,18 @@ test("User can Add product 2 successfully", async ({ page }) => {
 
     const addCost = new AddcostPage(page);
 
-    await addCost.btnAddCost.click();
-    await addCost.txtItemName.fill("Pizza");
-    await addCost.btnIncrement.click();
-    await addCost.btnIncrement.click();
-    await addCost.txtAmount.fill("1350");
-    await addCost.txtPurchaseDate.fill("2024-09-11");
-    await addCost.selectMonth.selectOption("September");
-    await addCost.btnSubmit.click();
-    await expect(addCost.btnAddCost).toBeVisible({ timeout: 40000 });
+
+    const costObject = {
+        itemName: "Pizza",
+        incrementClicks: 2,
+        amount: "1350",
+        purchaseDate: "2024-09-11",
+        month: "September"
+    }
+
+   await addCost.addCost(costObject);
+
+     
 
 });
 

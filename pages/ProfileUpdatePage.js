@@ -8,5 +8,37 @@ class ProfileUpdatePage {
       this.btnUploadImage = page.getByRole("button", { name: "Upload Image" });
       this.btnUpdate = page.getByRole("button", { name: "Update" });
     }
+  
+   async uploadProfileAndUpdate(filePath) {
+
+
+           
+        await this.btnUserAccount.click();
+        await this.btnProfile.click();
+        await this.btnEdit.click();
+        await this.btnChooseFile.setInputFiles(filePath);
+
+        const alertMessages = [];
+        this.page.on('dialog', async dialog => {
+            alertMessages.push(dialog.message());
+            await dialog.accept();
+        });
+        
+        await this.btnUploadImage.click();
+ 
+        await this.page.waitForEvent('dialog'); 
+        await page.waitForTimeout(1000);
+
+      
+        await this.btnUpdate.click();
+        await this.page.waitForEvent('dialog');
+
+       
+        expect(alertMessages[0]).toBe('Image uploaded successfully!');
+        expect(alertMessages[1]).toBe('User updated successfully!');
+
+    
+    }
   }
+
   export default ProfileUpdatePage;
