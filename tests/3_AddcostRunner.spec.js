@@ -3,20 +3,30 @@ import jsonData from '../Utils/userData.json';
 import LoginPage from "../pages/LoginPage.js";
 import AddcostPage from "../pages/AddcostPage.js";
 
+
+let page;    
+
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+  await page.goto("/");
+  const latestUser = jsonData[ jsonData.length - 1 ];
+  const login = new LoginPage(page);
+  await login.loginUser(latestUser.email , latestUser.password);
+  await expect(page.getByText('Dashboard')).toBeVisible({ timeout: 40000 });
+
+  
+});
+test.afterAll(async () => {
+  await page.close();
+});
+
+
+
+
 test.describe("User can add Item Successfully", () => {
 
-    test.beforeEach(async ({ page }) => {
 
-        const latestUser = jsonData[ jsonData.length - 1 ];
-    
-        await page.goto("/");
-        const login = new LoginPage(page);
-        await login.loginUser(latestUser.email , latestUser.password);
-        await expect(page.getByText('Dashboard')).toBeVisible();
-        
-      });
-
-test("User can Add product 1 successfully", async ({ page }) => {
+test("User can Add product 1 successfully", async () => {
 
 
     const addCost = new AddcostPage(page);
@@ -35,7 +45,7 @@ test("User can Add product 1 successfully", async ({ page }) => {
     
 });
 
-test("User can Add product 2 successfully", async ({ page }) => {
+test("User can Add product 2 successfully", async () => {
 
 
     const addCost = new AddcostPage(page);
@@ -55,7 +65,7 @@ test("User can Add product 2 successfully", async ({ page }) => {
 
 });
 
-test("Assert Two Products Added Successfully", async ({ page }) => {
+test("Assert Two Products Added Successfully", async () => {
 
     await expect(page.locator('tbody')).toBeVisible({ timeout: 40000 });
     

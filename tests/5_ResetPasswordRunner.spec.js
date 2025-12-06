@@ -18,7 +18,7 @@ test.describe("User can  Reset Password", () => {
 
     test("Login With new Password Successfully ", async ({ page }) => {
                 
-                page.goto("/");
+                 await page.goto("/");
                 const login = new LoginPage(page);
                 await login.loginUser(latestUser.email , newPass);
                 await expect(page.getByText('Dashboard')).toBeVisible({ timeout: 40000 });
@@ -41,12 +41,11 @@ test.describe("User can  Reset Password", () => {
       test("User can not reset Password with unregistered Email", async ({ page }) => {
         
         
-        page.goto("/");
+      
 
         const reset = new ResetPassPage(page);
-        await reset.resetLink.click();
-        await reset.txtEmail.fill("hdwdwebwb95109@gmail.com");
-        await reset.btnSendReset.click();        
+        await reset.resetPasswordInvalidEmail("hwwyydwdwebwb95109@gmail.com");
+         
 
         await expect(page.getByText('Your email is not registered')).toBeVisible({ timeout: 40000 });
 
@@ -55,13 +54,12 @@ test.describe("User can  Reset Password", () => {
         
     });
 
-        test("User can not reset Password when password and confirm password mismatches ", async ({ page }) => {
+test("User can not reset Password when password and confirm password mismatches ", async ({ page }) => {
         
         
     
 
         const reset = new ResetPassPage(page);
-        await reset.resetLink.click();
         await reset.resetPassword(latestUser.email , newPass , "9273626736362");
         await expect(page.getByText('Passwords do not match')).toBeVisible({ timeout: 40000 });
 

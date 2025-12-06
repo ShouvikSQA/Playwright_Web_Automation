@@ -1,4 +1,5 @@
 import {fetchEmail} from '../Utils/utils.js'
+import { expect } from '@playwright/test';
 
 class ResetPassPage {
     constructor(page) {
@@ -13,6 +14,17 @@ class ResetPassPage {
         this.txtConfirmPass = page.getByLabel('Confirm Password *');
         this.btnResetPass = page.getByRole('button', { name: 'Reset Password' });
         
+
+    }
+
+    async resetPasswordInvalidEmail(email){
+
+        await this.page.goto("/");
+        await this.resetLink.click();
+
+    
+        await this.txtEmail.fill(email);
+        await this.btnSendReset.click();
 
     }
     

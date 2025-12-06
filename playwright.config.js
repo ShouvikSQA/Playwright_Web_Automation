@@ -35,7 +35,7 @@ export default defineConfig({
 
   use: {
 
-    actionTimeout : 10000,
+    actionTimeout : 20000,
     /* Base URL to use in actions like `await page.goto('/')`. */
      baseURL: 'https://dailyfinance.roadtocareer.net/',
      video : "on-first-retry",

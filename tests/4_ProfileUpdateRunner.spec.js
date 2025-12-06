@@ -3,25 +3,32 @@ import jsonData from '../Utils/userData.json';
 import LoginPage from "../pages/LoginPage.js";
 import ProfileUpdatePage from "../pages/ProfileUpdatePage.js";
 
+let page;    
+
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+  await page.goto("/");
+  const latestUser = jsonData[ jsonData.length - 1 ];
+  const login = new LoginPage(page);
+  await login.loginUser(latestUser.email , latestUser.password);
+  await expect(page.getByText('Dashboard')).toBeVisible({ timeout: 40000 });
+
+  
+});
+test.afterAll(async () => {
+  await page.close();
+});
+
+
 test.describe("User can Upload Successfully", () => {
 
-    test.beforeEach(async ({ page }) => {
-        const latestUser = jsonData[ jsonData.length - 1 ];
-    
-        await page.goto("/");
-        const login = new LoginPage(page);
-        await login.loginUser(latestUser.email , latestUser.password);
-        await expect(page.getByText('Dashboard')).toBeVisible({ timeout: 40000 });
-      });
 
-test("User can upload profile picture successfully and Then Do Logout", async ({ page }) => {
+test("User can upload profile picture successfully and Then Do Logout", async () => {
     const uploadNewImg = new ProfileUpdatePage(page);
-    await uploadNewImg("./resources/Sample.jpg");
+    await uploadNewImg.uploadProfileAndUpdate("./resources/Sample.jpg");
  
   });
 
 
-
- 
 
 });

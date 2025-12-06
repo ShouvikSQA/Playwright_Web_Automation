@@ -11,7 +11,7 @@ const generateRandomId=(min,max)=>{
 
 const getNewEmail = ()=>{
     
-    const newCount = 500  + jsonData.length +1;
+    const newCount = generateRandomId(100000,99999999);
     const newEmail = "Shouvik9292+"+ newCount +"@gmail.com";
     return newEmail;
 }

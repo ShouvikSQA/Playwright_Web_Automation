@@ -1,3 +1,5 @@
+import {expect} from "@playwright/test"
+
 class ProfileUpdatePage {
     constructor(page) {
       this.page = page;
@@ -27,7 +29,7 @@ class ProfileUpdatePage {
         await this.btnUploadImage.click();
  
         await this.page.waitForEvent('dialog'); 
-        await page.waitForTimeout(1000);
+        await this.page.waitForTimeout(1000);
 
       
         await this.btnUpdate.click();

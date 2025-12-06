@@ -1,3 +1,5 @@
+import {expect} from "@playwright/test"
+
 class AddcostPage {
     constructor(page) {
       this.page = page;
@@ -22,7 +24,7 @@ class AddcostPage {
 
         await this.txtAmount.fill(costObject.amount);
         await this.txtPurchaseDate.fill(costObject.purchaseDate);
-        await this.selectMonth.selectOption(month);
+        await this.selectMonth.selectOption(costObject.month);
         await this.btnSubmit.click();
 
        
