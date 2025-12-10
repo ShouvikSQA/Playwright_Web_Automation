@@ -16,46 +16,52 @@ const getNewEmail = ()=>{
     return newEmail;
 }
 
-async function fetchID() {
-    const api = await request.newContext({
-      baseURL: 'https://gmail.googleapis.com',
-      extraHTTPHeaders: {
-        "Accept" : "*/*",
-        "Content-Type" : "application/json",
-        "Authorization" : `Bearer ${process.env.google_access_token}`,
+
+
+  async function fetchID() {
+  const api = await request.newContext();
+
+  const response = await api.get(
+    "https://gmail.googleapis.com/gmail/v1/users/me/messages",
+    {
+      headers: {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.google_access_token}`,
       }
-    });
+    }
+  );
+  const data = await response.json();
+  const emailID = data.messages[0].id;
+
+  return emailID;
+}
+
   
-    const response = await api.get("/gmail/v1/users/me/messages");
-    //const data = response.ok() ? await response.json() : null;
-    const data = await response.json();
-  
-    const emailID = data.messages[0].id;
-  
-    return emailID;
-  }
-  
+
+
+
   async function fetchEmail() {
-    
-    const emailId = await fetchID();
-   console.log(typeof(emailId));
-    const api = await request.newContext({
-      baseURL: 'https://gmail.googleapis.com',
-      extraHTTPHeaders: {
-        "Accept" : "*/*",
-        "Content-Type" : "application/json",
-        "Authorization" : `Bearer ${process.env.google_access_token}`
+  const emailId = await fetchID();
+
+  const api = await request.newContext();
+
+  const response = await api.get(
+    "https://gmail.googleapis.com/gmail/v1/users/me/messages/" + emailId,
+    {
+      headers: {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.google_access_token}`,
       }
-    });
-  
-    const response = await api.get("/gmail/v1/users/me/messages/"+ emailId);
-    //const data = response.ok() ? await response.json() : null;
-  
-  
-    const resJson = await  response.json();
-    const latestEmail = resJson.snippet
-    return latestEmail;
-  }
+    }
+  );
+  const resJson = await response.json();
+  const latestEmail = resJson.snippet;
+
+  return latestEmail;
+}
+
   
 
 
